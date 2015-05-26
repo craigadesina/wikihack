@@ -1,6 +1,10 @@
-<%= "Hi there" %>
+<br><%= "Hi there, #{current_user.name || current_user.email}" %> 
+
+<%= render partial: 'wikis/form', locals: {wiki: @user.wikis.new, user: @user} %>
+<% current_user.wikis.each do |wiki| %>
+<%= link_to wiki.title, wiki %><br>
+<% end %>
 
 
-
-
+<br>
 <p>I am home <p/>

@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    resources :wikis, only: [:index, :new, :create]
+  end
+
+  resources :wikis, except: [:index, :new, :create]
 
   root 'welcome#index'
 

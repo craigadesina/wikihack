@@ -1,0 +1,17 @@
+<h2> Create or update wiki </h2>
+<%= form_for [@wiki] do |f| %>
+
+ <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :body %><br />
+    <%= f.text_field :body, autofocus: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Update" %>
+  </div>
+<% end %>

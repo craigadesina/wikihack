@@ -1,0 +1,14 @@
+<%= div_for wiki do |f| %>
+
+ <div class="field">
+    <%= f.title %><br />
+  </div>
+
+  <div class="field">
+    <%= f.body %><br />
+  </div>
+
+<%= button_to 'remove this git', wiki_path{wiki}, confirm: "Are you sure?", method: 'delete'  %>
+
+  <%= button_to 'change ', edit_wiki_path(wiki) %>
+<% end %>
