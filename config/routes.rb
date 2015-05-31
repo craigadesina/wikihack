@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  resources :users, only: [:show] do
+  resources :users, only: [:index, :show, :update, :destroy] do
     resources :wikis, only: [:index, :new, :create]
   end
 

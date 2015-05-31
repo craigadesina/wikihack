@@ -1,4 +1,9 @@
-<%= div_for wiki do |f| %>
+
+<strong><%= "#{wiki.user.name}'s wikis" %></strong>
+
+ 
+ <%= div_for wiki do |f| %>
+
 
  <div class="field">
     <%= f.title %><br />
@@ -8,7 +13,8 @@
     <%= f.body %><br />
   </div>
 
-<%= button_to 'remove this git', wiki_path{wiki}, confirm: "Are you sure?", method: 'delete'  %>
+  <%= button_to 'remove this git', wiki_path(wiki), method: :delete, data: { confirm: "Are you sure?"} if policy(wiki).destroy? %>
 
-  <%= button_to 'change ', edit_wiki_path(wiki) %>
+  <%= link_to 'change wiki', edit_wiki_path(wiki) if policy(wiki).update? %>
+
 <% end %>

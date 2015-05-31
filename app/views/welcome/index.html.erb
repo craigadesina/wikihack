@@ -1,4 +1,4 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
-
-
+<h1>Welcome to Wiki#Hackz!!</h1>
+<% Wiki.all.each do |wiki| %>
+<%= link_to wiki.title, wiki_path(wiki) %><br>
+<% end %>

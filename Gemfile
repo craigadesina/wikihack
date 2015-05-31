@@ -6,6 +6,7 @@ gem 'rails', '4.2.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 gem 'devise'
+gem 'pundit'
 gem 'figaro'
 gem 'faker'
 gem "factory_girl_rails", "~> 4.0"

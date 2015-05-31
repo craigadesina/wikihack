@@ -1,9 +1,11 @@
-<br><%= "Hi there, #{current_user.name || current_user.email}" %> 
+<br><%= "Hi there, #{@user.name || @user.email}" %> <br>
 
+<% if policy(@user.wikis.new).create? %>
 <%= render partial: 'wikis/form', locals: {wiki: @user.wikis.new, user: @user} %>
-<% current_user.wikis.each do |wiki| %>
-<%= link_to wiki.title, wiki %><br>
 <% end %>
+
+<%= render template: "wikis/index" %>
+
 
 
 <br>
