@@ -4,7 +4,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    (record == @user) or @user.admin?
+    @user.present? and ((record == @user) or @user.admin?)
   end
 
   def update?

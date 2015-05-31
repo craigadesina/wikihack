@@ -1,6 +1,6 @@
 class WikisController < ApplicationController
   
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
 
   before_action :find_wiki, except: [:index, :new, :create]
 
@@ -43,7 +43,7 @@ class WikisController < ApplicationController
     authorize @wiki
     if @wiki.update(wiki_params)
       flash[:notice] = "wiki was sucessfully updated"
-      redirect_to current_user
+      redirect_to @wiki.user
     else
       flash[:error] = "Sorry, wiki could not be updated"
       render 'edit'
@@ -54,10 +54,10 @@ class WikisController < ApplicationController
     authorize @wiki
     if @wiki.destroy
     flash[:notice] = "wiki was sucessfully deleted"
-      redirect_to current_user
+      redirect_to @wiki.user
     else
       flash[:error] = "Sorry, wiki could not be deleted"
-      redirect_to current_user
+      redirect_to @wiki.user
     end
   end
 
