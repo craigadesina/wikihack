@@ -9,6 +9,7 @@ gem 'devise'
 gem 'pundit'
 gem 'figaro'
 gem 'faker'
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem "factory_girl_rails", "~> 4.0"
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

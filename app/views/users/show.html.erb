@@ -1,8 +1,14 @@
-<br><%= "Hi there, #{@user.name || @user.email}" %> <br>
+<p><strong> <%= "Hi there, #{@user.name || @user.email}, you are a #{@user.role} member" %> </strong> </p>
+
+<strong> <%= link_to "Upgrade to Premium User!", edit_user_path(@user) if @user.standard? %> </strong> <br>
+
+<%= render "/users/refund_user.html.erb" if (@user.premium? && current_user.admin?) %>
 
 <% if policy(@user.wikis.new).create? %>
 <%= render partial: 'wikis/form', locals: {wiki: @user.wikis.new, user: @user} %>
 <% end %>
+
+<strong><hr><%= "#{@user.name}'s wikis" %></strong><br>
 
 <%= render template: "wikis/index" %>
 

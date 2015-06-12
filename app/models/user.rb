@@ -7,9 +7,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :confirmable, :validatable
   has_many :wikis, dependent: :destroy
 
+  has_many :transactions, dependent: :destroy
+
   enum role: [:standard, :premium, :admin]
 
   
+
   def set_role
     self.role ||= :standard
   end

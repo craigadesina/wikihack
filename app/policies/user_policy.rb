@@ -8,7 +8,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    @user.admin?
+    show?
   end
 
   def edit?

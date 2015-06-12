@@ -1,0 +1,81 @@
+<%= form_for @user do |f| %>
+
+  <div class="field">
+    
+    <%= f.radio_button(:role, "premium") %>
+    <strong><%= f.label(:role_premium, "upgrade your membership to premium!") %></strong><br> <i>If you agree to our terms and conditions, please select this radio button</i>
+  </div>
+
+  <article>
+    <label class="amount">
+      <span>Amount: $15.00</span>
+    </label>
+  </article>
+
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-description="Premium membership fee"
+          data-amount="1500"></script> <br>
+
+<p>Terms & Conditions for use by a "Software as a Service" (SaaS) product.</p>
+<p>These terms and conditions can be used by a range of online paid-for services, for example email marketing management, online project collaboration, online software products and packages.</p>
+          
+<p>Current well known Saas services include Campaign Monitor, Google Docs, Zoho and Basecamp.</p>
+          
+<p>
+The agreement also contains the following clauses:</p>
+
+<ul>
+<li>Service Introduction</li>
+<li>Eligibility</li>
+<li>Registration and Account Integrity</li>
+<li>Pricing, Plans and Features</li>
+<li>Payment and Credit Control</li>
+<li>Cancellation</li>
+<li>Upgrading or Downgrading Accounts</li>
+<li>Trial and Offer Periods</li>
+<li>Technical Support</li>
+<li>Specific Service Rules</li>
+<li>Content Ownership</li>
+<li>Copyrighted Material</li>
+<li>Content Monitoring</li>
+<li>Termination</li>
+<li>Access and Backups</li>
+<li>Disclaimer</li>
+<li>Limitation of Liability</li>
+<li>Indemnity</li>
+<li>Privacy</li>
+<li>Severability</li>
+<li>Waiver</li>
+<li>Jurisdiction</li>
+</ul>
+
+
+Sample Software as a Service
+Terms and Conditions1
+Please read these terms and conditions carefully, as they set out our and your legal
+rights and obligations in relation our [name] platform and services. You will be asked to
+agree to these terms and conditions before becoming a customer.
+[You should print a copy of these terms and conditions for future reference. We will not
+file a copy specifically in relation to you, and they may not be accessible on our website
+in future.]2
+[These terms and conditions are available in [the English language] only.]3
+If you have any questions or complaints about our services, please contact us by writing
+to [address] or by email to [email address].
+AGREEMENT:
+1. Definitions and interpretation
+...
+[2. Agreement and Term4
+The Agreement will come into force on the Effective Date and will continue in
+force [until [date or event], upon which it will terminate automatically / for the
+Minimum Term and indefinitely thereafter / indefinitely], unless terminated
+[earlier] in accordance with Clause [13].
+OR
+2. Agreement and Term
+2.1 The advertising of the Platform and the Services on the Provider's website
+constitutes an “invitation to treat”; and the Customer's order for the Platform and
+the Services constitutes a contractual offer. No contract will come into force
+between the Provider and the Customer unless and until the Provider accepts the
+Customer's order in accordance with the procedure detailed in this Clause [2].
+  
+<% end %>

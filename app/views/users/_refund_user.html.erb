@@ -1,0 +1,13 @@
+<%= form_tag ({controller: "users", action: "refund_user"})  do %>
+      
+   <%= label_tag(:charge, "Enter charge identification here") %>
+
+   <div class="actions">
+   <%= text_field_tag(:charge) %>
+   </div>
+
+   <div class="actions">
+    <%= submit_tag("Submit") %>
+  </div>
+  
+<% end %>

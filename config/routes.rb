@@ -6,9 +6,11 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  resources :users, only: [:index, :show, :update, :destroy] do
+  resources :users, except: [:new, :create] do
     resources :wikis, only: [:index, :new, :create]
   end
+
+  post '/users/:id', to: "users#refund_user", as: 'refund'
 
   resources :wikis, except: [:index, :new, :create]
 

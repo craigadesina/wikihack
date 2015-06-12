@@ -31,7 +31,7 @@ class WikisController < ApplicationController
       redirect_to current_user
     else
       flash[:error] = "Sorry, wiki could not be created"
-      redirect_to current_user
+      redirect_to @user
     end
   end
 
@@ -43,7 +43,7 @@ class WikisController < ApplicationController
     authorize @wiki
     if @wiki.update(wiki_params)
       flash[:notice] = "wiki was sucessfully updated"
-      redirect_to @wiki.user
+      redirect_to @wiki
     else
       flash[:error] = "Sorry, wiki could not be updated"
       render 'edit'
