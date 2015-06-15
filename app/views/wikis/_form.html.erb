@@ -1,7 +1,7 @@
 <h2> Create new wiki </h2>
 <%= form_for [user, wiki] do |f| %>
 
- <div class="field">
+  <div class="field">
     <%= f.label :title %><br />
     <%= f.text_field :title, autofocus: true %>
   </div>
@@ -10,8 +10,15 @@
     <%= f.label :body %><br />
     <%= f.text_field :body, autofocus: true %>
   </div>
+  
+  <% if wiki.user.admin? || wiki.user.premium? %>
+  <div class="field">
+    <%= f.check_box(:private, {}, true) %>
+    <%= f.label(:private, "Mark as private") %>
+  </div>
+  <% end %>
 
   <div class="actions">
-    <%= f.submit "Submit" %>
+    <%= f.submit "Create your wiki!" %>
   </div>
 <% end %>

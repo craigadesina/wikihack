@@ -20,7 +20,7 @@ class WikisController < ApplicationController
 
   def show
     authorize @wiki
-   render partial: 'wiki', locals: {wiki: @wiki} 
+    render partial: 'wiki', locals: {wiki: @wiki} 
   end
 
   def create
@@ -30,7 +30,7 @@ class WikisController < ApplicationController
       flash[:notice] = "wiki was sucessfully created"
       redirect_to current_user
     else
-      flash[:error] = "Sorry, wiki could not be created"
+      flash[:alert] = "Sorry, wiki could not be created"
       redirect_to @user
     end
   end
@@ -45,7 +45,7 @@ class WikisController < ApplicationController
       flash[:notice] = "wiki was sucessfully updated"
       redirect_to @wiki
     else
-      flash[:error] = "Sorry, wiki could not be updated"
+      flash.now[:alert] = "Sorry, wiki could not be updated"
       render 'edit'
     end
   end
@@ -56,7 +56,7 @@ class WikisController < ApplicationController
     flash[:notice] = "wiki was sucessfully deleted"
       redirect_to @wiki.user
     else
-      flash[:error] = "Sorry, wiki could not be deleted"
+      flash[:alert] = "Sorry, wiki could not be deleted"
       redirect_to @wiki.user
     end
   end
@@ -64,7 +64,7 @@ class WikisController < ApplicationController
   private
 
   def wiki_params
-    params.require(:wiki).permit(:title, :body)
+    params.require(:wiki).permit(:title, :body, :private)
   end
 
   def find_wiki

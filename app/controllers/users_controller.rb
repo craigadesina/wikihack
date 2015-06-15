@@ -11,7 +11,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @wikis = @user.wikis.all
     authorize @user
-    #@wiki = current_user
   end
 
   def edit
@@ -61,12 +60,10 @@ class UsersController < ApplicationController
 
   def refund_user
     @user = User.find(params[:id]) || "deleted user"
-    #@transaction = @user.transactions.first
     
     if check_refund?(charge_params, @user)
     
     @transaction = @user.transactions.find_by(charge_params)
-    #while !@transaction.nil?
     stripe_charge = @transaction.charge
     ch = Stripe::Charge.retrieve(stripe_charge)
     refund = ch.refunds.create
@@ -74,6 +71,7 @@ class UsersController < ApplicationController
     msg = "#{stripe_charge}_is already refunded!"
     @transaction.update(:charge => msg)
       if @user.update(:role => "standard")
+        @user.make_wikis_public #makes this user's wikis public as a standard user
         flash[:notice] = "#{msg} for #{@user.name || judas}"
         redirect_to @user || current_user
       else

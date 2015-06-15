@@ -11,7 +11,20 @@
     <%= f.text_field :body, autofocus: true %>
   </div>
 
+  <% if @wiki.user.admin? || @wiki.user.premium? %>
+  <div class="field">
+    <%= f.radio_button(:private, true) %>
+    <%= f.label(:private, "Mark as private wiki") %>
+  </div>
+
+  <div class="field">
+    <%= f.radio_button(:private, false) %>
+    <%= f.label(:public, "Mark as public wiki") %>
+  </div>
+
+  <% end %>
+
   <div class="actions">
-    <%= f.submit "Update" %>
+    <%= f.submit "Update wiki!" %>
   </div>
 <% end %>

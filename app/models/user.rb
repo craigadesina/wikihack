@@ -16,4 +16,9 @@ class User < ActiveRecord::Base
   def set_role
     self.role ||= :standard
   end
+
+  def make_wikis_public
+    wikis.private_viewable.update_all(:private => false)
+    #note!! this will not have updated time-stamps
+  end
 end
