@@ -8,7 +8,11 @@ class WikisController < ApplicationController
 
   def index
     #@wikis = Wiki.all
-    @wikis = @user.wikis.all
+    if current_user and (current_user.admin? or current_user.premium?)
+      @wikis = @user.wikis.all
+    else
+    @wikis = @user.wikis.public_viewable
+    end
     authorize @wikis
     #render partial: 'wiki', collection: @wikis#, as: :wiki
   end

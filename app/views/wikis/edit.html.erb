@@ -11,7 +11,7 @@
     <%= f.text_field :body, autofocus: true %>
   </div>
 
-  <% if @wiki.user.admin? || @wiki.user.premium? %>
+  <% if (@wiki.user == current_user) || current_user.admin? %>
   <div class="field">
     <%= f.radio_button(:private, true) %>
     <%= f.label(:private, "Mark as private wiki") %>
