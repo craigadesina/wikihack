@@ -1,7 +1,7 @@
 <h1>Welcome to Wiki#Hackz!!</h1>
 
 <% @wikis.each do |wiki| %>
-  <% if current_user.present? %>
+  <% if current_user.present? && wiki.users.include?(current_user) %>
     <% if wiki.user_id == (current_user.id) %>
       <%= markdown_to_html(link_to "#{wiki.title} status: owner", wiki_path(wiki)) %><br>
     <% else %>
