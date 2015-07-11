@@ -1,16 +1,19 @@
 require 'faker'
 
-90.times do 
+50.times do 
   user = User.new(name: Faker::Name.name, email: Faker::Internet.email, password: Faker::Internet.password(8)) 
   user.skip_confirmation! 
-  user.save! 
+  user.save!
 end 
 users = User.all 
 
 
-  500.times do 
-    wiki = (users.sample).wikis.new(title: Faker::Lorem.words, body: Faker::Lorem.sentence) 
-    wiki.save! 
+  200.times do 
+    creator = (users.sample)
+    wiki = Wiki.new(title: Faker::Lorem.words, body: Faker::Lorem.paragraphs, user_id: creator.id, private: false) 
+    wiki.users << users.sample #<< creator 
+    #wiki.user_id = creator.id
+    wiki.save!
   end 
   wikis = Wiki.all 
 
@@ -22,7 +25,7 @@ users = User.all
    password: 'helloworld', 
    ) 
  admin.skip_confirmation! 
- admin.save! 
+ admin.save 
 end 
 
  
@@ -34,19 +37,8 @@ end
  puts "That was a fucking helluva lotta seeds to spray about, bro!!"
 
 #**********************************************
-#users = User.all
 
-#wikis = Wiki.all
 
-wikis_users = 0
-
-wikis.each do |f|
-  f.users << users.where(:id => f.user_id) << users.sample(random: (1..7))
-  f.save!
-  wikis_users += f.users.count
-end
-
-puts wikis_users
 
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
