@@ -56,13 +56,12 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
 end
 
-  group :production do
-    gem 'pg'
-    gem 'rails_12factor'
-  end
-
- group :development do
-   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
  end
+
+group :development do
+  gem 'sqlite3'
+end
 
