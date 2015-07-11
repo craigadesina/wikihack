@@ -1,6 +1,6 @@
 require 'faker'
 
-50.times do 
+70.times do 
   user = User.new(name: Faker::Name.name, email: Faker::Internet.email, password: Faker::Internet.password(8)) 
   user.skip_confirmation! 
   user.save!
@@ -8,11 +8,10 @@ end
 users = User.all 
 
 
-  200.times do 
+  600.times do 
     creator = (users.sample)
-    wiki = Wiki.new(title: Faker::Lorem.words, body: Faker::Lorem.paragraphs, user_id: creator.id, private: false) 
-    wiki.users << users.sample #<< creator 
-    #wiki.user_id = creator.id
+    wiki = Wiki.new(title: Faker::Lorem.sentence, body: Faker::Lorem.paragraphs(3), user_id: creator.id, private: false) 
+    wiki.users << users.sample << creator 
     wiki.save!
   end 
   wikis = Wiki.all 
