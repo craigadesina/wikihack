@@ -50,7 +50,7 @@ class WikisController < ApplicationController
             @wiki.users << (User.find_by(collab_params))
           end
         rescue ActiveRecord::RecordInvalid
-        
+        #will write out the logic later
         end
       end
       
