@@ -1,20 +1,15 @@
 class WikisController < ApplicationController
   
-  #before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:show, :index]
 
   before_action :find_wiki, except: [:index, :new, :create]
 
-  before_action :set_user, only: [:index, :new, :create]
+  before_action :set_user, only: [:new, :create]
 
   def index
-    #@wikis = Wiki.all
-    if current_user and (current_user.admin? or current_user.premium?)
-      @wikis = @user.wikis.all
-    else
-    @wikis = @user.wikis.public_viewable
-    end
-    authorize @wikis
-    #render partial: 'wiki', collection: @wikis#, as: :wiki
+    @wikis = policy_scope(Wiki)
+    @wikis = @wikis.paginate(page: params[:page], per_page: 10).to_a
+    #authorize @wikis
   end
 
   def new
@@ -24,11 +19,12 @@ class WikisController < ApplicationController
 
   def show
     authorize @wiki
-    render partial: 'wiki', locals: {wiki: @wiki} 
   end
 
   def create
-    @wiki = current_user.wikis.build(wiki_params)
+    @wiki = Wiki.new(wiki_params)
+    @wiki.users << current_user
+    @wiki.user_id = current_user.id
     authorize @wiki
     if @wiki.save
       flash[:notice] = "wiki was sucessfully created"
@@ -46,10 +42,22 @@ class WikisController < ApplicationController
   def update
     authorize @wiki
     if @wiki.update(wiki_params)
+      
+      unless User.find_by(collab_params).nil?
+        begin 
+          if @wiki.private?
+          
+            @wiki.users << (User.find_by(collab_params))
+          end
+        rescue ActiveRecord::RecordInvalid
+        
+        end
+      end
+      
       flash[:notice] = "wiki was sucessfully updated"
       redirect_to @wiki
     else
-      flash.now[:alert] = "Sorry, wiki could not be updated"
+      flash.now[:alert] = "Sorry, wiki could not be created because #{@wiki.errors.messages}"
       render 'edit'
     end
   end
@@ -58,10 +66,10 @@ class WikisController < ApplicationController
     authorize @wiki
     if @wiki.destroy
     flash[:notice] = "wiki was sucessfully deleted"
-      redirect_to @wiki.user
+      redirect_to @wiki.owner
     else
       flash[:alert] = "Sorry, wiki could not be deleted"
-      redirect_to @wiki.user
+      redirect_to @wiki.owner
     end
   end
 
@@ -69,6 +77,10 @@ class WikisController < ApplicationController
 
   def wiki_params
     params.require(:wiki).permit(:title, :body, :private)
+  end
+
+  def collab_params
+    params.permit(:email)
   end
 
   def find_wiki

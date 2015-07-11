@@ -7,23 +7,55 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-
-<% if user_signed_in? %>
-<%= link_to "sign out", destroy_user_session_path, method: :delete %>
-
-<%= link_to "Update Details", edit_user_registration_path %>
-
-<% else %>
-
-<%= link_to "Log in", new_user_session_path %>
-
-<%= link_to "Register", new_user_registration_path %>
-
+<% if notice %>
+  <div class="alert alert-success">
+    <p id="notice" ><%= notice %></p> 
+    </div>
+<% elsif alert %>
+  <div class="alert alert-danger">
+    <p id="alert" ><%= alert %></p> 
+    </div>
 <% end %>
 
+<div class="container">
+<ul class="nav nav-pills">
+
+<% if user_signed_in? %>
+<li class="active">
+<%= link_to "sign out", destroy_user_session_path, method: :delete %>
+</li>
+<li class="active">
+<%= link_to "Update Details", edit_user_registration_path %>
+</li>
+
+<li class="active">
+<%= link_to "All wikis (Home)", wikis_path %>
+</li>
+<li class="active">
+<%= link_to 'Go to my profile', current_user, class: "btn btn-success" %>
+</li>
+
+<% else %>
+<li class="active">
+<%= link_to "Log in", new_user_session_path %>
+</li>
+
+<li class="active">
+<%= link_to "Register", new_user_registration_path %>
+</li>
+
+<li class="active">
+<%= link_to "All wikis (Home)", wikis_path %>
+</li>
+<% end %>
+</div>
+
+</ul>
+</div>
+
+<div class="container">
 <%= yield %>
+</div>
 
 </body>
 </html>

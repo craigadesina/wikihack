@@ -7,14 +7,16 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   resources :users, except: [:new, :create] do
-    resources :wikis, only: [:index, :new, :create]
+    resources :wikis, only: [:new, :create]
   end
 
   post '/users/:id', to: "users#refund_user", as: 'refund'
 
-  resources :wikis, except: [:index, :new, :create]
+  resources :wikis, except: [:new, :create] do
+    resources :collaborators, only: [:destroy]
+  end
 
-  root 'welcome#index'
+  root 'wikis#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

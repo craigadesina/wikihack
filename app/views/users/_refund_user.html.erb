@@ -1,13 +1,18 @@
 <%= form_tag ({controller: "users", action: "refund_user"})  do %>
       
+  <div class="col-md-8">
+   <div class="form-group">
    <%= label_tag(:charge, "Enter charge identification here") %>
-
-   <div class="actions">
+   
+   <div class="field">
    <%= text_field_tag(:charge) %>
    </div>
+   </div>
+   
 
    <div class="actions">
-    <%= submit_tag("Submit", data: { confirm: "Are you sure? All your private wikis will be made public!"}) %>
+    <%= submit_tag("Refund Transaction!", data: { confirm: "Are you sure? All your private wikis will be made public!"}, class: "btn btn-danger") %>
+  </div>
   </div>
   
 <% end %>

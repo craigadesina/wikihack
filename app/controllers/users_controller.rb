@@ -1,7 +1,5 @@
 class UsersController < ApplicationController
   
-  before_action :authenticate_user!
-
   def index
     @users = User.all
     authorize @users
@@ -9,7 +7,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @wikis = @user.wikis.all
+    @wikis = @user.wikis.paginate(page: params[:page], per_page: 7)
+    authorize @wikis
     authorize @user
   end
 
@@ -20,7 +19,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     authorize @user
-    #stripe shit starts here
+    #stripe's work starts here
     token = params[:stripeToken]
 
     # Create the charge on Stripe's servers - this will charge the user's card

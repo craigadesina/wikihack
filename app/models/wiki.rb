@@ -1,30 +1,27 @@
 class Wiki < ActiveRecord::Base
   
-  belongs_to :user
+  has_many :collaborators, dependent: :destroy
+
+  has_many :users, :through => :collaborators
 
   scope :private_viewable, -> { where(private: true) }
   scope :public_viewable, -> { where(private: false) }
   
   default_scope { order('created_at DESC', 'updated_at DESC') }
 
-  #default_scope { order('updated_at DESC') }
+  validates :title, length: { within: 5..100 }
+  validates :body, length: { within: 5..1000 }
+  validates :owner, presence: true
 
-  #scope :visible_to, -> { select_viewable_wiki }
 
+
+  def owner
+    User.find(self.user_id)
   end
 
-  #def self.select_viewable_wiki
-    # if (defined? User.current_user)
-    #  if current_user.admin? or current_user.premium?
-     # all
-      #end
-    #else
-     # public_viewable
-    #end
-  #end
+  def public?
+    private == false
+  end
 
-  #def set_private
-   # wiki = Wiki.where(private: nil)
-    #wiki.update_all(private: false)
-  #end
+end
 

@@ -5,20 +5,26 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :confirmable, :validatable
-  has_many :wikis, dependent: :destroy
+  
+  has_many :wikis, :through => :collaborators
 
   has_many :transactions, dependent: :destroy
 
+  has_many :collaborators, dependent: :destroy
+
   enum role: [:standard, :premium, :admin]
 
-  
+  validates :name, presence: true
 
   def set_role
     self.role ||= :standard
   end
 
   def make_wikis_public
-    wikis.private_viewable.update_all(:private => false)
-    #note!! this will not have updated time-stamps
+    wikis.any? do |wiki|
+      wiki.private? and (wiki.owner == self.id)
+      wiki.update(:private => false)
+    end
   end
+
 end

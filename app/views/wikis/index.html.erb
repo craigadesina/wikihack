@@ -1,4 +1,17 @@
+<h1>Welcome to Wiki#Hackz!!</h1>
 
 <% @wikis.each do |wiki| %>
-<%= link_to wiki.title, wiki_path(wiki) %><br>
+  <% if current_user.present? %>
+    <% if wiki.user_id == (current_user.id) %>
+      <%= markdown_to_html(link_to "#{wiki.title} status: owner", wiki_path(wiki)) %><br>
+    <% else %>
+      <%= markdown_to_html(link_to "#{wiki.title} status: collaborator", wiki_path(wiki)) %><br>
+    <% end %>
+  <% else %>
+    <%= markdown_to_html(link_to wiki.title, wiki_path(wiki)) %><br>
+
+  <% end %>
+
 <% end %>
+
+  <%= will_paginate @wikis, :renderer => BootstrapPagination::Rails %>

@@ -1,18 +1,26 @@
+<div class="jumbotron">
 <p><strong> <%= "Hi there, #{@user.name || @user.email}, you are a #{@user.role} member" %> </strong> </p>
+</div>
 
-<strong> <%= link_to "Upgrade to Premium User!", edit_user_path(@user) if @user.standard? %> </strong> <br>
+<strong> <%= link_to "Upgrade to Premium User!", edit_user_path(@user), class: "btn btn-success" if @user.standard? %> </strong> <br>
 
 <%= render "/users/refund_user.html.erb" if (@user.premium? && current_user.admin?) %>
+
 
 <% if policy(@user.wikis.new).create? %>
 <%= render partial: 'wikis/form', locals: {wiki: @user.wikis.new, user: @user} %>
 <% end %>
 
+<div class="col-sm-7">
+
 <strong><hr><%= "#{@user.name}'s wikis" %></strong><br>
 
+<div class="table table-striped">
 <%= render template: "wikis/index" %>
-
+</div>
 
 
 <br>
 <p>I am home <p/>
+
+</div>

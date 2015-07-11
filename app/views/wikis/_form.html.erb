@@ -1,24 +1,31 @@
+<div class="col-sm-7">
 <h2> Create new wiki </h2>
-<%= form_for [user, wiki] do |f| %>
+<%= form_for [user, wiki], class: "form-horizontal" do |f| %>
 
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title, autofocus: true %>
-  </div>
+  
+  <div class="form-group">
+  <%= f.label :title %><br />
+    <%= f.text_field :title, autofocus: true, class: 'form-control' %>
+    </div>
+    </div>
 
-  <div class="field">
+  <div class="col-lg-7">
+  <div class="form-group">
     <%= f.label :body %><br />
-    <%= f.text_field :body, autofocus: true %>
+    <%= f.text_area :body, autofocus: true, class: 'form-control' %>
   </div>
   
-  <% if wiki.user.admin? || wiki.user.premium? %>
-  <div class="field">
+  <% if current_user.admin? || current_user.premium? %>
+  <div class="checkbox">
     <%= f.check_box(:private, {}, true) %>
     <%= f.label(:private, "Mark as private") %>
   </div>
   <% end %>
 
   <div class="actions">
-    <%= f.submit "Create your wiki!" %>
+    <%= f.submit "Create your wiki!", class: 'btn btn-primary' %>
   </div>
+  </div>
+  
+  
 <% end %>

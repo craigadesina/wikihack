@@ -1,30 +1,57 @@
 <h2> Update wiki </h2>
 <%= form_for [@wiki] do |f| %>
 
- <div class="field">
+ <div class="form-group">
     <%= f.label :title %><br />
     <%= f.text_field :title, autofocus: true %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :body %><br />
-    <%= f.text_field :body, autofocus: true %>
+    <%= f.text_area :body, autofocus: true %>
   </div>
 
-  <% if (@wiki.user == current_user) || current_user.admin? %>
-  <div class="field">
-    <%= f.radio_button(:private, true) %>
-    <%= f.label(:private, "Mark as private wiki") %>
-  </div>
+  <% if policy(@wiki).hidable? %>
+    <div class="form-group">
+      <%= f.radio_button(:private, true) %>
+      <%= f.label(:private, "Mark as private wiki") %>
+    </div>
 
-  <div class="field">
-    <%= f.radio_button(:private, false) %>
-    <%= f.label(:public, "Mark as public wiki") %>
-  </div>
-
+    <div class="form-group">
+      <%= f.radio_button(:private, false) %>
+      <%= f.label(:public, "Mark as public wiki") %>
+    </div>
+    <% if @wiki.private? %>
+    <p> Add collaborating users to your wiki by searching by email below: </p>
+      <div class="form-group">
+      <em><%= f.label :collaborator_email, "Enter new collaborator's Email" %></em><br />
+      <%= email_field_tag :email %>
+      </div>
+    <% end %>
   <% end %>
 
   <div class="actions">
-    <%= f.submit "Update wiki!" %>
+    <%= f.submit "Update wiki!", class: 'btn btn-primary' %>
   </div>
+<% end %>
+
+<br>
+
+  <% if @wiki.private? %>
+
+    <strong><p> Collaborating users: </p></strong>
+
+    <% @wiki.collaborators.each do |collab| %>
+
+    <span class="badge">
+  
+    <% if @wiki.owner == current_user %>
+      <%= button_to "#{collab.user.name} ---- delete this collaborator", wiki_collaborator_path(collab.wiki, collab), method: :delete, data: { confirm: "Are you sure you want to delete #{collab.user.name} as a wiki collaborator???"} unless collab.user == @wiki.owner %>
+    <% else %>
+      <% if collab.user == current_user %>
+        <%= button_to "#{collab.user.name} ---- delete your collaboration from this wiki", wiki_collaborator_path(collab.wiki, collab), method: :delete, data: { confirm: "Are you sure you want to remove yourself from this group of collaborators??"} unless collab.user == @wiki.owner %>
+     <% end %>
+    <% end %>
+    </span>
+  <% end %>
 <% end %>
