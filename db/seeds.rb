@@ -9,9 +9,13 @@ users = User.all
 
 
   600.times do 
-    creator = (users.sample)
+    creator = users.sample
+    contributor = users.sample
+    while contributor == creator do
+      contributor = users.sample
+    end
     wiki = Wiki.new(title: Faker::Lorem.sentence, body: Faker::Lorem.paragraphs(3), user_id: creator.id, private: false) 
-    wiki.users << users.sample << creator 
+    wiki.users << contributor << creator 
     wiki.save!
   end 
   wikis = Wiki.all 
@@ -21,12 +25,20 @@ users = User.all
  admin = User.new( 
    name:     'Admin User', 
    email:    'admin@example.com', 
-   password: 'helloworld', 
+   password: 'password',
+   role:     "premium",  
    ) 
  admin.skip_confirmation! 
- admin.save 
+ admin.save!
 end 
 
+standard_user = User.new( 
+   name:     'Standard User', 
+   email:    'standarduser@example.com', 
+   password: 'password', 
+   ) 
+ standard_user.skip_confirmation! 
+ standard_user.save!
  
 
  puts "#{users.count} users created" 
