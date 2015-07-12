@@ -1,4 +1,6 @@
 class WikisController < ApplicationController
+
+  require "will_paginate/array"
   
   skip_before_action :authenticate_user!, only: [:show, :index]
 
@@ -8,7 +10,7 @@ class WikisController < ApplicationController
 
   def index
     @wikis = policy_scope(Wiki)
-    @wikis = @wikis.paginate(page: params[:page], per_page: 10).to_a
+    @wikis = @wikis.paginate(page: params[:page], per_page: 10)
     #authorize @wikis
   end
 
@@ -30,7 +32,7 @@ class WikisController < ApplicationController
       flash[:notice] = "wiki was sucessfully created"
       redirect_to current_user
     else
-      flash[:alert] = "Sorry, wiki could not be created"
+      flash[:alert] = "Sorry, wiki could not be created because #{@wiki.errors.messages}"
       redirect_to @user
     end
   end

@@ -1,5 +1,5 @@
 class Wiki < ActiveRecord::Base
-  
+
   has_many :collaborators, dependent: :destroy
 
   has_many :users, :through => :collaborators
