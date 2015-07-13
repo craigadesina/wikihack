@@ -1,5 +1,7 @@
 class Wiki < ActiveRecord::Base
 
+  after_initialize :set_private
+
   has_many :collaborators, dependent: :destroy
 
   has_many :users, :through => :collaborators
@@ -23,5 +25,8 @@ class Wiki < ActiveRecord::Base
     private == false
   end
 
+  def set_private
+    self.private ||= false
+  end
 end
 
