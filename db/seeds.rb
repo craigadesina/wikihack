@@ -15,7 +15,7 @@ users = User.all
       contributor = users.sample
     end
     wiki = Wiki.new(title: Faker::Lorem.sentence, body: Faker::Lorem.paragraphs(3), user_id: creator.id, private: false) 
-    wiki.users << contributor << creator 
+    wiki.users << creator << contributor
     wiki.save!
   end 
   wikis = Wiki.all 

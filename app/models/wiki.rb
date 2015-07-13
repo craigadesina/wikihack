@@ -25,8 +25,11 @@ class Wiki < ActiveRecord::Base
     private == false
   end
 
+  
+  protected
+
   def set_private
-    self.private ||= false
+    private ||= false
   end
 end
 
