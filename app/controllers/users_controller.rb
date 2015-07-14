@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+
+  before_action :set_user, except: [:index]
   
   def index
     @users = User.all
@@ -6,18 +8,16 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     @wikis = @user.wikis.paginate(page: params[:page], per_page: 7)
     authorize @wikis
     authorize @user
   end
 
   def edit
-    @user = User.find(params[:id])
+    
   end
 
   def update
-    @user = User.find(params[:id])
     authorize @user
     #stripe's work starts here
     token = params[:stripeToken]
@@ -46,7 +46,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
     authorize @user
     if @user.destroy
       flash[:notice] = "user was sucessfully deleted"
@@ -58,7 +57,6 @@ class UsersController < ApplicationController
   end
 
   def refund_user
-    @user = User.find(params[:id]) || "deleted user"
     
     if check_refund?(charge_params, @user)
     
@@ -85,6 +83,10 @@ class UsersController < ApplicationController
 
 
   private
+
+  def set_user
+    @user = User.friendly.find(params[:id])
+  end
 
   def user_params
     params.require(:user).permit(:role)

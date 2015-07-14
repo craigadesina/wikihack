@@ -2,6 +2,10 @@ class Wiki < ActiveRecord::Base
 
   after_initialize :set_private
 
+  extend FriendlyId
+
+  friendly_id :title, :use => :slugged
+
   has_many :collaborators, dependent: :destroy
 
   has_many :users, :through => :collaborators

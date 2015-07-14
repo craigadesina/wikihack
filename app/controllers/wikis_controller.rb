@@ -86,10 +86,10 @@ class WikisController < ApplicationController
   end
 
   def find_wiki
-    @wiki = Wiki.find(params[:id])
+    @wiki = Wiki.friendly.find(params[:id])
   end
 
   def set_user
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
   end
 end

@@ -26,6 +26,6 @@ class CollaboratorsController < ApplicationController
   end
 
   def set_wiki
-    @wiki = Wiki.find(params[:wiki_id])
+    @wiki = Wiki.friendly.find(params[:wiki_id])
   end
 end

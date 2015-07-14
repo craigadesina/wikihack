@@ -3,6 +3,10 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   after_initialize :set_role, if: :new_record?
 
+  extend FriendlyId
+
+  friendly_id :name, :use => :slugged
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :confirmable, :validatable
   
