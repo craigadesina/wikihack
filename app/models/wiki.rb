@@ -1,6 +1,6 @@
 class Wiki < ActiveRecord::Base
 
-  after_initialize :set_private
+  after_find :make_wiki_private
 
   extend FriendlyId
 
@@ -32,8 +32,11 @@ class Wiki < ActiveRecord::Base
   
   protected
 
-  def set_private
-    private ||= false
+  def make_wiki_private
+    if private == nil
+      update(private: false)
+    end
   end
+
 end
 
